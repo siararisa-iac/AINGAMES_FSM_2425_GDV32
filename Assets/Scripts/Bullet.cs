@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     private GameObject explosion;
 
     [SerializeField] 
-    private float speed = 50.0f;
+    private float speed = 10.0f;
     [SerializeField] 
     private float lifeTime = 3.0f;
     [SerializeField] 
