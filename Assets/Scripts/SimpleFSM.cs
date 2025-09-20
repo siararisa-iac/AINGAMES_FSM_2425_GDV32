@@ -1,12 +1,5 @@
 using UnityEngine;
 
-public enum State 
-{ 
-    Patrol,
-    Chase,
-    Attack
-}
-
 public class SimpleFSM : MonoBehaviour
 {
     [Header("Movement")]
@@ -31,6 +24,7 @@ public class SimpleFSM : MonoBehaviour
 
     private State currentState;
     private Transform currentTarget;
+    private float distanceToPlayer;
 
     private void Start()
     {
@@ -40,6 +34,7 @@ public class SimpleFSM : MonoBehaviour
 
     private void Update()
     {
+        TrackDistanceFromPlayer();
         switch (currentState)
         {
             case State.Patrol:
@@ -59,6 +54,11 @@ public class SimpleFSM : MonoBehaviour
         currentTarget = target;
     }
 
+    private void TrackDistanceFromPlayer()
+    {
+        distanceToPlayer = Vector3.Distance(transform.position, player.position);
+    }
+
     private void RandomizeWaypointTarget()
     {
         //Randomize a value from the array
@@ -73,10 +73,18 @@ public class SimpleFSM : MonoBehaviour
 
     private void DoChase()
     {
-        
+        if(distanceToPlayer > chaseDistance)
+        {
+            currentState = State.Patrol;
+            RandomizeWaypointTarget();
+        }
+        else
+        {
+            MoveToTarget();
+        }
     }
 
-    private void DoPatrol()
+    private void MoveToTarget()
     {
         // Get the direction towards the target
         Vector3 targetDirection = currentTarget.position - transform.position;
@@ -86,12 +94,21 @@ public class SimpleFSM : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         // Once facing the target, move forward
         transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
+    }
 
+    private void DoPatrol()
+    {
+        MoveToTarget();
 
         float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
         if(distanceToTarget <= waypointDistance)
         {
             RandomizeWaypointTarget();
+        }
+        else if(distanceToPlayer <= chaseDistance)
+        {
+            currentState = State.Chase;
+            SetCurrentTarget(player);
         }
     
     }
