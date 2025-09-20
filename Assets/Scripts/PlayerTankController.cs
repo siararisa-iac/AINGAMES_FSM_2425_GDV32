@@ -6,9 +6,9 @@ public class PlayerTankController : MonoBehaviour
     [SerializeField] 
     private GameObject bullet;
     [SerializeField] 
-    private float maxForwardSpeed = 10.0f;
+    private float maxForwardSpeed = 1.0f;
     [SerializeField] 
-    private float maxBackwardSpeed = -10.0f;
+    private float maxBackwardSpeed = -1.0f;
 
     private Transform turret;
     private Transform bulletSpawnPoint;    
