@@ -3,13 +3,13 @@ using UnityEngine;
 
 public abstract class FSMState
 {
-    public abstract void Run();
-    public abstract void CheckTransition();
+    public abstract StateID StateID {get;}
+    public abstract void Run(Transform agent, Transform player);
+    public abstract void CheckTransition(Transform agent, Transform player);
 
     // This collection will containe the conditions and what state it will transition to when the condition is met
     protected Dictionary<TransitionID, StateID> _transitionMap = new Dictionary<TransitionID, StateID>();
-    // property, a getter property
-    public StateID StateID => _stateID;
+
     // just a shortcut for:
     /*
     public StateID StateID
