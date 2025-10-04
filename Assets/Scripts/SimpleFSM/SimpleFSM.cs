@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SimpleFSM : MonoBehaviour
+public class SimpleFSM : FiniteStateMachine
 {
     [Header("Movement")]
     [SerializeField]
@@ -22,28 +22,28 @@ public class SimpleFSM : MonoBehaviour
     [SerializeField]
     private Transform player;
 
-    private State currentState;
+    private Enums currentState;
     private Transform currentTarget;
     private float distanceToPlayer;
 
-    private void Start()
+    protected override void Initialize()
     {
-        currentState = State.Patrol;
+        currentState = Enums.Patrol;
         RandomizeWaypointTarget();
     }
 
-    private void Update()
+    protected override void UpdateFiniteStateMachine()
     {
         TrackDistanceFromPlayer();
         switch (currentState)
         {
-            case State.Patrol:
+            case Enums.Patrol:
                 DoPatrol();
                 break;
-            case State.Chase:
+            case Enums.Chase:
                 DoChase();
                 break;
-            case State.Attack:
+            case Enums.Attack:
                 DoAttack();
                 break;
         }
@@ -75,7 +75,7 @@ public class SimpleFSM : MonoBehaviour
     {
         if(distanceToPlayer > chaseDistance)
         {
-            currentState = State.Patrol;
+            currentState = Enums.Patrol;
             RandomizeWaypointTarget();
         }
         else
@@ -107,7 +107,7 @@ public class SimpleFSM : MonoBehaviour
         }
         else if(distanceToPlayer <= chaseDistance)
         {
-            currentState = State.Chase;
+            currentState = Enums.Chase;
             SetCurrentTarget(player);
         }
     
