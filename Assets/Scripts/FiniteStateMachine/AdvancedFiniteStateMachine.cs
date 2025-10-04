@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class AdvancedFiniteStateMachine : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private FSMState _currentState;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+
     }
 }

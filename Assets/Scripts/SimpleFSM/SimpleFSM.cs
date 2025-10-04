@@ -22,13 +22,13 @@ public class SimpleFSM : FiniteStateMachine
     [SerializeField]
     private Transform player;
 
-    private Enums currentState;
+    private State currentState;
     private Transform currentTarget;
     private float distanceToPlayer;
 
     protected override void Initialize()
     {
-        currentState = Enums.Patrol;
+        currentState = State.Patrol;
         RandomizeWaypointTarget();
     }
 
@@ -37,13 +37,13 @@ public class SimpleFSM : FiniteStateMachine
         TrackDistanceFromPlayer();
         switch (currentState)
         {
-            case Enums.Patrol:
+            case State.Patrol:
                 DoPatrol();
                 break;
-            case Enums.Chase:
+            case State.Chase:
                 DoChase();
                 break;
-            case Enums.Attack:
+            case State.Attack:
                 DoAttack();
                 break;
         }
@@ -75,7 +75,7 @@ public class SimpleFSM : FiniteStateMachine
     {
         if(distanceToPlayer > chaseDistance)
         {
-            currentState = Enums.Patrol;
+            currentState = State.Patrol;
             RandomizeWaypointTarget();
         }
         else
@@ -107,7 +107,7 @@ public class SimpleFSM : FiniteStateMachine
         }
         else if(distanceToPlayer <= chaseDistance)
         {
-            currentState = Enums.Chase;
+            currentState = State.Chase;
             SetCurrentTarget(player);
         }
     
